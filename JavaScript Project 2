@@ -1,0 +1,79 @@
+
+function reverseString(str) {
+  return str.split('').reverse().join('');
+}
+Count Characters:
+javascript
+Copier
+Modifier
+function countCharacters(str) {
+  return str.length;
+}
+Capitalize Words:
+javascript
+Copier
+Modifier
+function capitalizeWords(str) {
+  return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+2. Array Functions
+Find Maximum and Minimum:
+Maximum:
+javascript
+Copier
+Modifier
+function findMax(arr) {
+  return Math.max(...arr);
+}
+Minimum:
+javascript
+Copier
+Modifier
+function findMin(arr) {
+  return Math.min(...arr);
+}
+Sum of Array:
+javascript
+Copier
+Modifier
+function sumArray(arr) {
+  return arr.reduce((sum, num) => sum + num, 0);
+}
+Filter Array:
+javascript
+Copier
+Modifier
+function filterArray(arr, condition) {
+  return arr.filter(condition);
+}
+3. Mathematical Functions
+Factorial:
+javascript
+Copier
+Modifier
+function factorial(num) {
+  if (num === 0 || num === 1) return 1;
+  return num * factorial(num - 1);
+}
+Prime Number Check:
+javascript
+Copier
+Modifier
+function isPrime(num) {
+  if (num <= 1) return false;
+  for (let i = 2; i <= Math.sqrt(num); i++) {
+    if (num % i === 0) return false;
+  }
+  return true;
+}
+Fibonacci Sequence:
+javascript
+Copier
+Modifier
+function fibonacciSequence(n) {
+  let fib = [0, 1];
+  for (let i = 2; i < n; i++) {
+    fib.push(fib[i - 1] + fib[i - 2]);
+  }
+  return fib.slice(0, n);
+}
