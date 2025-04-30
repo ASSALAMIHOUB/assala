@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Panier d'Achat</title>
+  <style>
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .like-btn {
+      cursor: pointer;
+      color: gray;
+      font-size: 20px;
+      user-select: none;
+    }
+
+    .like-btn.liked {
+      color: red;
+    }
+
+    .quantity {
+      margin: 0 10px;
+    }
+
+    .delete-btn {
+      cursor: pointer;
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Votre Panier</h1>
+
+  <div id="cart">
+    <div class="cart-item">
+      <span class="like-btn">♥</span>
+      <span class="item-name">Article 1</span>
+      <span class="unit-price">20</span> €
+      <button class="minus-btn">-</button>
+      <span class="quantity">1</span>
+      <button class="plus-btn">+</button>
+      <button class="delete-btn">Supprimer</button>
+    </div>
+
+    <div class="cart-item">
+      <span class="like-btn">♥</span>
+      <span class="item-name">Article 2</span>
+      <span class="unit-price">15</span> €
+      <button class="minus-btn">-</button>
+      <span class="quantity">2</span>
+      <button class="plus-btn">+</button>
+      <button class="delete-btn">Supprimer</button>
+    </div>
+  </div>
+
+  <div class="total" id="total-price">Total: 0 €</div>
+
+  <script>
+    function updateTotal() {
+      const items = document.querySelectorAll('.cart-item');
+      let total = 0;
+      items.forEach(item => {
+        const price = parseFloat(item.querySelector('.unit-price').textContent);
+        const quantity = parseInt(item.querySelector('.quantity').textContent);
+        total += price * quantity;
+      });
+      document.getElementById('total-price').textContent = 'Total: ' + total + ' €';
+    }
+
+    document.addEventListener('click', function (e) {
+      const target = e.target;
+
+      // Ajouter
+      if (target.classList.contains('plus-btn')) {
+        const quantity = target.previousElementSibling;
+        quantity.textContent = parseInt(quantity.textContent) + 1;
+        updateTotal();
+      }
+
+      // Retirer
+      if (target.classList.contains('minus-btn')) {
+        const quantity = target.nextElementSibling;
+        const current = parseInt(quantity.textContent);
+        if (current > 1) {
+          quantity.textContent = current - 1;
+          updateTotal();
+        }
+      }
+
+      // Supprimer
+      if (target.classList.contains('delete-btn')) {
+        const item = target.closest('.cart-item');
+        item.remove();
+        updateTotal();
+      }
+
+      // Aimer (cœur)
+      if (target.classList.contains('like-btn')) {
+        target.classList.toggle('liked');
+      }
+    });
+
+    // Mise à jour du total au chargement
+    updateTotal();
+  </script>
+
+</body>
+</html>
