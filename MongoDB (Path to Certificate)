@@ -1,0 +1,15 @@
+use contact
+db.contactlist.insertMany([
+db.contactlist.find()
+db.contactlist.findOne({ _id: ObjectId("YOUR_ID") })
+db.contactlist.find({ age: { $gt: 18 } })
+db.contactlist.find({
+  age: { $gt: 18 },
+  nom: { $regex: /ah/i }
+})
+db.contactlist.updateOne(
+  { nom: "Kefi", prenom: "Seif" },
+  { $set: { prenom: "Anis" } }
+)
+db.contactlist.deleteMany({ age: { $lt: 5 } })
+db.contactlist.find()
