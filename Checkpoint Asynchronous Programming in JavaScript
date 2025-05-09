@@ -1,0 +1,19 @@
+async function concurrentRequests() {
+  const fakeApiCall = (name, delay) =>
+    new Promise(resolve =>
+      setTimeout(() => resolve(`Résultat de ${name}`), delay)
+    );
+
+  try {
+    const [result1, result2] = await Promise.all([
+      fakeApiCall("Appel A", 2000),
+      fakeApiCall("Appel B", 3000),
+    ]);
+    console.log("Résultats combinés :", result1, "&", result2);
+  } catch (error) {
+    console.log("Erreur lors des appels simultanés :", error);
+  }
+}
+
+// Exemple d'appel
+// concurrentRequests();
