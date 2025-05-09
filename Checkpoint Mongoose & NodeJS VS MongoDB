@@ -1,0 +1,29 @@
+require('dotenv').config(); // Charger les variables d'environnement
+const mongoose = require('mongoose');
+const Person = require('./models/person');
+
+// Connexion à MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log("✅ Connexion à MongoDB réussie"))
+.catch((err) => console.error("❌ Erreur de connexion :", err));
+
+// ==== Exemples d’opérations ====
+
+// 1. Créer une nouvelle personne
+const createPerson = () => {
+  const newPerson = new Person({
+    name: "John Doe",
+    age: 30,
+    favoriteFoods: ["Pizza", "Salade"]
+  });
+
+  newPerson.save((err, data) => {
+    if (err) return console.error(err);
+    console.log("✅ Personne enregistrée :", data);
+  });
+};
+
+createPerson();
