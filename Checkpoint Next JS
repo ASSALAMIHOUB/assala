@@ -1,0 +1,27 @@
+.hero {
+  text-align: center;
+  padding: 2rem;
+import styles from '../styles/Home.module.css';
+
+export default function Home() {
+  return (
+    <div className={styles.hero}>
+      <h1>Bienvenue sur mon portfolio</h1>
+      <p>Je suis développeur web.</p>
+    </div>
+  );
+}
+
+jsx
+import Link from 'next/link';
+
+export default function Navbar() {
+  return (
+    <nav>
+      <Link href="/">Accueil</Link> | 
+      <Link href="/about">À propos</Link> | 
+      <Link href="/projects">Projets</Link> | 
+      <Link href="/contact">Contact</Link>
+    </nav>
+  );
+}
