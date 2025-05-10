@@ -1,0 +1,48 @@
+1. Table Client
+sql
+Copier
+Modifier
+INSERT INTO Client (NumCli, NomCli, Adresse)
+VALUES (1, 'ALI', 'Tunis');
+
+INSERT INTO Client (NumCli, NomCli, Adresse)
+VALUES (2, 'SAMI', 'Ariana');
+
+INSERT INTO Client (NumCli, NomCli, Adresse)
+VALUES (3, 'AMINE', 'Sfax');
+📌 2. Table Produit
+sql
+Copier
+Modifier
+INSERT INTO Produit (CodePro, Designation, Prix)
+VALUES (1, 'Stylo', 1.2);
+
+INSERT INTO Produit (CodePro, Designation, Prix)
+VALUES (2, 'Cahier', 2.5);
+
+INSERT INTO Produit (CodePro, Designation, Prix)
+VALUES (3, 'Règle', 0.6);
+📌 3. Table Commande
+sql
+Copier
+Modifier
+INSERT INTO Commande (NumCom, DateCom, NumCli)
+VALUES (101, TO_DATE('2024-05-01', 'YYYY-MM-DD'), 1);
+
+INSERT INTO Commande (NumCom, DateCom, NumCli)
+VALUES (102, TO_DATE('2024-05-03', 'YYYY-MM-DD'), 2);
+📌 4. Table Ligne_Commande
+sql
+Copier
+Modifier
+INSERT INTO Ligne_Commande (NumCom, CodePro, Qte)
+VALUES (101, 1, 10);
+
+INSERT INTO Ligne_Commande (NumCom, CodePro, Qte)
+VALUES (101, 2, 5);
+
+INSERT INTO Ligne_Commande (NumCom, CodePro, Qte)
+VALUES (102, 2, 8);
+
+INSERT INTO Ligne_Commande (NumCom, CodePro, Qte)
+VALUES (102, 3, 3);
