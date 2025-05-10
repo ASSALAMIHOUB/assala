@@ -1,0 +1,32 @@
+// Counter.tsx
+import React, { Component } from 'react';
+
+// 1. Interface pour l’état du composant
+interface CounterState {
+  count: number;
+}
+
+// 2. Pas de props à définir ici, donc les props sont {}
+class Counter extends Component<{}, CounterState> {
+  // 3. Définition de l’état initial
+  state: CounterState = {
+    count: 0,
+  };
+
+  // 4. Méthode d'incrémentation
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  // 5. Méthode render avec correction des balises
+  render() {
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={this.increment}>Increment</button>
+      </div>
+    );
+  }
+}
+
+export default Counter;
