@@ -1,0 +1,201 @@
+export const ADD_TASK = "ADD_TASK";
+export const TOGGLE_TASK = "TOGGLE_TASK";
+export const EDIT_TASK = "EDIT_TASK";
+export const SET_FILTER = "SET_FILTER";
+
+export const addTask = (description) => ({
+  type: ADD_TASK,
+  payload: { description },
+});
+
+export const toggleTask = (id) => ({
+  type: TOGGLE_TASK,
+  payload: id,
+});
+
+export const editTask = (id, description) => ({
+  type: EDIT_TASK,
+  payload: { id, description },
+});
+
+export const setFilter = (filter) => ({
+  type: SET_FILTER,
+  payload: filter,
+});
+redux/reducer.js
+js
+Copier
+Modifier
+import { ADD_TASK, TOGGLE_TASK, EDIT_TASK, SET_FILTER } from "./actions";
+
+const initialState = {
+  tasks: [],
+  filter: "ALL", // "DONE" | "NOT_DONE"
+};
+
+let nextId = 1;
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_TASK:
+      return {
+        ...state,
+        tasks: [
+          ...state.tasks,
+          {
+            id: nextId++,
+            description: action.payload.description,
+            isDone: false,
+          },
+        ],
+      };
+    case TOGGLE_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.payload ? { ...task, isDone: !task.isDone } : task
+        ),
+      };
+    case EDIT_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.map((task) =>
+          task.id === action.payload.id
+            ? { ...task, description: action.payload.description }
+            : task
+        ),
+      };
+    case SET_FILTER:
+      return { ...state, filter: action.payload };
+    default:
+      return state;
+  }
+};
+
+export default reducer;
+redux/store.js
+js
+Copier
+Modifier
+import { createStore } from "redux";
+import reducer from "./reducer";
+
+const store = createStore(reducer);
+
+export default store;
+3. Utilisation dans index.js
+js
+Copier
+Modifier
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import App from "./App";
+import store from "./redux/store";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+4. Composants de base (exemples)
+AddTask.js
+js
+Copier
+Modifier
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTask } from "../redux/actions";
+
+const AddTask = () => {
+  const [input, setInput] = useState("");
+  const dispatch = useDispatch();
+
+  const handleAdd = () => {
+    if (input.trim()) {
+      dispatch(addTask(input));
+      setInput("");
+    }
+  };
+
+  return (
+    <div>
+      <input value={input} onChange={(e) => setInput(e.target.value)} />
+      <button onClick={handleAdd}>Ajouter</button>
+    </div>
+  );
+};
+
+export default AddTask;
+Task.js
+js
+Copier
+Modifier
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { toggleTask, editTask } from "../redux/actions";
+
+const Task = ({ id, description, isDone }) => {
+  const dispatch = useDispatch();
+  const [editMode, setEditMode] = useState(false);
+  const [newDesc, setNewDesc] = useState(description);
+
+  return (
+    <div>
+      {editMode ? (
+        <>
+          <input value={newDesc} onChange={(e) => setNewDesc(e.target.value)} />
+          <button
+            onClick={() => {
+              dispatch(editTask(id, newDesc));
+              setEditMode(false);
+            }}
+          >
+            Sauvegarder
+          </button>
+        </>
+      ) : (
+        <>
+          <span style={{ textDecoration: isDone ? "line-through" : "none" }}>
+            {description}
+          </span>
+          <button onClick={() => dispatch(toggleTask(id))}>
+            {isDone ? "Non fait" : "Fait"}
+          </button>
+          <button onClick={() => setEditMode(true)}>Modifier</button>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Task;
+ListTask.js
+js
+Copier
+Modifier
+import React from "react";
+import { useSelector } from "react-redux";
+import Task from "./Task";
+
+const ListTask = () => {
+  const { tasks, filter } = useSelector((state) => state);
+
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "ALL") return true;
+    if (filter === "DONE") return task.isDone;
+    if (filter === "NOT_DONE") return !task.isDone;
+    return true;
+  });
+
+  return (
+    <div>
+      {filteredTasks.map((task) => (
+        <Task key={task.id} {...task} />
+      ))}
+    </div>
+  );
+};
+
+export default ListTask;
