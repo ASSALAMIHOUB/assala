@@ -1,0 +1,11 @@
+Gymnasium (gym_id, name, address, phone_number)
+    ↑ 1                ↓ *
+Member (member_id, last_name, first_name, address, date_of_birth, gender, gym_id)
+    ↑ *                ↓ *
+Member_Session (member_id, session_id)
+    ↑ *                ↓ *
+Session (session_id, sport_type, schedule, max_members, gym_id)
+    ↑ *                ↓ *
+Coach_Session (coach_id, session_id)
+    ↑ *                ↓ 1..2
+Coach (coach_id, last_name, first_name, age, specialty)
