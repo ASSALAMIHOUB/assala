@@ -1,0 +1,155 @@
+import React from 'react';
+
+const MovieCard = ({ title, description, posterURL, note }) => {
+  return (
+    <div style={{ border: '1px solid #ddd', margin: '10px', padding: '10px', width: '250px' }}>
+      <img src={posterURL} alt={title} style={{ width: '100%' }} />
+      <h3>{title}</h3>
+      <p>{description}</p>
+      <p>Note : {note}/10</p>
+    </div>
+  );
+};
+
+export default MovieCard;
+2. MovieList.js
+jsx
+Copier
+Modifier
+import React from 'react';
+import MovieCard from './MovieCard';
+
+const MovieList = ({ movies }) => {
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      {movies.map((movie, index) => (
+        <MovieCard key={index} {...movie} />
+      ))}
+    </div>
+  );
+};
+
+export default MovieList;
+3. Filter.js
+jsx
+Copier
+Modifier
+import React from 'react';
+
+const Filter = ({ titleFilter, ratingFilter, onTitleChange, onRatingChange }) => {
+  return (
+    <div style={{ marginBottom: '20px' }}>
+      <input
+        type="text"
+        placeholder="Filtrer par titre"
+        value={titleFilter}
+        onChange={(e) => onTitleChange(e.target.value)}
+        style={{ marginRight: '10px' }}
+      />
+      <input
+        type="number"
+        placeholder="Note minimale"
+        value={ratingFilter}
+        onChange={(e) => onRatingChange(e.target.value)}
+        min={0}
+        max={10}
+      />
+    </div>
+  );
+};
+
+export default Filter;
+4. App.js
+jsx
+Copier
+Modifier
+import React, { useState } from 'react';
+import MovieList from './components/MovieList';
+import Filter from './components/Filter';
+import './App.css';
+
+function App() {
+  const [movies, setMovies] = useState([
+    {
+      title: "Inception",
+      description: "Un thriller de science-fiction réalisé par Christopher Nolan.",
+      posterURL: "https://m.media-amazon.com/images/I/51s+zE61srL._AC_.jpg",
+      note: 9,
+    },
+    {
+      title: "Interstellar",
+      description: "Voyage au-delà des étoiles pour sauver l'humanité.",
+      posterURL: "https://m.media-amazon.com/images/I/71nDQZL4ZzL._AC_SY679_.jpg",
+      note: 8,
+    },
+  ]);
+
+  const [titleFilter, setTitleFilter] = useState("");
+  const [ratingFilter, setRatingFilter] = useState(0);
+
+  const [newMovie, setNewMovie] = useState({
+    title: "",
+    description: "",
+    posterURL: "",
+    note: "",
+  });
+
+  const addMovie = () => {
+    setMovies([...movies, { ...newMovie, note: parseFloat(newMovie.note) }]);
+    setNewMovie({ title: "", description: "", posterURL: "", note: "" });
+  };
+
+  const filteredMovies = movies.filter(
+    (movie) =>
+      movie.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
+      movie.note >= ratingFilter
+  );
+
+  return (
+    <div className="App">
+      <h1>🎬 Ma Bibliothèque de Films</h1>
+
+      <Filter
+        titleFilter={titleFilter}
+        ratingFilter={ratingFilter}
+        onTitleChange={setTitleFilter}
+        onRatingChange={setRatingFilter}
+      />
+
+      <div style={{ marginBottom: '20px' }}>
+        <h2>Ajouter un nouveau film</h2>
+        <input
+          type="text"
+          placeholder="Titre"
+          value={newMovie.title}
+          onChange={(e) => setNewMovie({ ...newMovie, title: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          value={newMovie.description}
+          onChange={(e) => setNewMovie({ ...newMovie, description: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="URL de l'image"
+          value={newMovie.posterURL}
+          onChange={(e) => setNewMovie({ ...newMovie, posterURL: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Note"
+          value={newMovie.note}
+          onChange={(e) => setNewMovie({ ...newMovie, note: e.target.value })}
+          min={0}
+          max={10}
+        />
+        <button onClick={addMovie}>Ajouter</button>
+      </div>
+
+      <MovieList movies={filteredMovies} />
+    </div>
+  );
+}
+
+export default App;
