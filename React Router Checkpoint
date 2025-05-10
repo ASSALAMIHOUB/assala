@@ -1,0 +1,124 @@
+// src/movies.js
+const movies = [
+  {
+    id: 1,
+    title: "Inception",
+    description: "Un voleur qui vole des secrets...",
+    posterURL: "https://image.url/inception.jpg",
+    note: 8.8,
+    trailer: "https://www.youtube.com/embed/YoHD9XEInc0"
+  },
+  {
+    id: 2,
+    title: "Interstellar",
+    description: "Une équipe voyage à travers un trou noir...",
+    posterURL: "https://image.url/interstellar.jpg",
+    note: 8.6,
+    trailer: "https://www.youtube.com/embed/zSWdZVtXT7E"
+  },
+];
+
+export default movies;
+3. Créer la page MovieDescription
+jsx
+Copier
+Modifier
+// src/MovieDescription.js
+import React from "react";
+import { useParams, Link } from "react-router-dom";
+import movies from "./movies";
+
+function MovieDescription() {
+  const { id } = useParams();
+  const movie = movies.find((m) => m.id === parseInt(id));
+
+  if (!movie) return <h2>Film non trouvé</h2>;
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>{movie.title}</h2>
+      <p>{movie.description}</p>
+      <iframe
+        width="560"
+        height="315"
+        src={movie.trailer}
+        title="Bande-annonce"
+        allowFullScreen
+      ></iframe>
+      <br />
+      <Link to="/">Retour à l'accueil</Link>
+    </div>
+  );
+}
+
+export default MovieDescription;
+4. Mettre à jour MovieCard.js pour utiliser Link
+jsx
+Copier
+Modifier
+// src/MovieCard.js
+import React from "react";
+import { Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+function MovieCard({ movie }) {
+  return (
+    <Card style={{ width: "18rem", margin: "1rem" }}>
+      <Card.Img variant="top" src={movie.posterURL} />
+      <Card.Body>
+        <Card.Title>{movie.title}</Card.Title>
+        <Card.Text>Note : {movie.note}</Card.Text>
+        <Link to={`/movie/${movie.id}`}>
+          <Button variant="primary">Voir plus</Button>
+        </Link>
+      </Card.Body>
+    </Card>
+  );
+}
+
+export default MovieCard;
+5. Mettre à jour MovieList.js
+jsx
+Copier
+Modifier
+// src/MovieList.js
+import React from "react";
+import MovieCard from "./MovieCard";
+import movies from "./movies";
+
+function MovieList() {
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap" }}>
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} movie={movie} />
+      ))}
+    </div>
+  );
+}
+
+export default MovieList;
+6. Mettre à jour App.js avec React Router
+jsx
+Copier
+Modifier
+// src/App.js
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import MovieList from "./MovieList";
+import MovieDescription from "./MovieDescription";
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <h1>Application de Films</h1>
+        <Routes>
+          <Route path="/" element={<MovieList />} />
+          <Route path="/movie/:id" element={<MovieDescription />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
