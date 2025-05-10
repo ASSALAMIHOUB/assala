@@ -1,0 +1,53 @@
+// src/UserList.js
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+function UserList() {
+  const [listOfUser, setListOfUser] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('https://jsonplaceholder.typicode.com/users')
+      .then((response) => {
+        setListOfUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des utilisateurs :", error);
+      });
+  }, []);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Liste des utilisateurs</h2>
+      <ul>
+        {listOfUser.map((user) => (
+          <li key={user.id}>
+            <strong>{user.name}</strong> – {user.email}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default UserList;
+Mettre à jour App.js pour afficher UserList
+
+jsx
+Copier
+Modifier
+// src/App.js
+import React from 'react';
+import './App.css';
+import UserList from './UserList';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Application Utilisateur</h1>
+      <UserList />
+    </div>
+  );
+}
+
+export default App;
