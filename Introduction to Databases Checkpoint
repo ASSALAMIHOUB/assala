@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Présentation MongoDB vs SQL</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+    .slide {
+      display: none;
+      padding: 60px;
+      text-align: center;
+      background: white;
+      height: 100vh;
+    }
+    .active { display: block; }
+    h1 { color: #333; }
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Diapositive 1 : Titre -->
+<div class="slide active">
+  <h1>Comparaison : MongoDB vs SQL</h1>
+  <p>Une introduction aux bases de données relationnelles et non relationnelles</p>
+</div>
+
+<!-- Diapositive 2 : SQL -->
+<div class="slide">
+  <h1>1. Qu'est-ce que SQL ?</h1>
+  <ul>
+    <li>Structured Query Language (langage structuré)</li>
+    <li>Utilisé pour gérer des bases de données relationnelles</li>
+    <li>Utilise des tables avec lignes et colonnes</li>
+    <li>Exemples : MySQL, PostgreSQL, Oracle</li>
+  </ul>
+</div>
+
+<!-- Diapositive 3 : MongoDB -->
+<div class="slide">
+  <h1>2. Qu'est-ce que MongoDB ?</h1>
+  <ul>
+    <li>Base de données NoSQL (non relationnelle)</li>
+    <li>Utilise des documents JSON (collections)</li>
+    <li>Flexible, sans schéma fixe</li>
+    <li>Idéale pour les données non structurées ou évolutives</li>
+  </ul>
+</div>
+
+<!-- Diapositive 4 : Comparaison -->
+<div class="slide">
+  <h1>3. Comparaison SQL vs MongoDB</h1>
+  <table border="1" cellpadding="10" style="margin:auto">
+    <tr><th>Critère</th><th>SQL</th><th>MongoDB</th></tr>
+    <tr><td>Structure</td><td>Tables</td><td>Documents JSON</td></tr>
+    <tr><td>Schéma</td><td>Fixe</td><td>Flexible</td></tr>
+    <tr><td>Langage</td><td>SQL</td><td>JavaScript-like queries</td></tr>
+    <tr><td>Scalabilité</td><td>Verticale</td><td>Horizontale</td></tr>
+  </table>
+</div>
+
+<!-- Diapositive 5 : Conclusion -->
+<div class="slide">
+  <h1>4. Conclusion</h1>
+  <p>SQL est idéal pour les données bien structurées, MongoDB pour les applications flexibles et évolutives.</p>
+  <p>Le choix dépend du projet et des exigences techniques.</p>
+</div>
+
+<!-- Navigation -->
+<div class="nav-buttons">
+  <button onclick="prevSlide()">⬅️ Précédent</button>
+  <button onclick="nextSlide()">Suivant ➡️</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+
+  function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove('active'));
+    slides[index].classList.add('active');
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  }
+</script>
+
+</body>
+</html>
